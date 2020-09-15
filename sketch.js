@@ -1,51 +1,52 @@
-var ball, database, position;
+var database;
+var PlayerCount;
+var GameState = 0;
+var form, player, game;
+var allPlayers;
 
 function setup(){
     database = firebase.database();
-    var locball = database.ref("ball/position");
-    locball.on("value", readPos, showError);
-
     createCanvas(500,500);
-    ball = createSprite(250,250,10,10);
-    ball.shapeColor = "red";
+
+    game = new Game();
+    game.getState();
+    game.start();
 }
 
 function draw(){
     background("white");
 
-    if(position !== undefined){   
-        if(keyDown(LEFT_ARROW)){
-            changePosition(-1,0);
-        }
-        else if(keyDown(RIGHT_ARROW)){
-            changePosition(1,0);
-        }
-        else if(keyDown(UP_ARROW)){
-            changePosition(0,-1);
-        }
-        else if(keyDown(DOWN_ARROW)){
-            changePosition(0,+1);
-        }
-        drawSprites();
-    }
+
 }
 
-function changePosition(x,y){
-    database.ref("ball/position").set({
-        x: position.x + x,
-        y: position.y + y
-    }
-    );
-   
-}
 
-function readPos(data){
-    position = data.val();
+/*
+Multiplayer Car Racing Game
+-Form ---> Player ----> Game
 
-    ball.x = position.x;
-    ball.y = position.y;
-}
 
-function showError(){
-    console.log("Error");
-}
+OBJECT ORIENTED PROGRAMMING (OOP)
+- We look at the components of our game as real world objects
+- Creating a design before creating an object (CLASS before OBJECT)
+
+1. Form
+    - Input box (name)
+    - Play Button
+    - Name ---> Database
+    - New Player Object
+2. Player
+    - Storing info
+    - Name
+    - Rank
+    - Distance
+    - Read & write this info to the database
+    - Player Count
+3. Game
+    - Game States
+    - WAIT (0)
+        - Displaying the form
+    - PLAY (1)
+        - playing the game
+    - END (2)
+        - Ranking
+*/
