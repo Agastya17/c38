@@ -29,6 +29,12 @@ class Game {
             //Display the form
             form.display();
         }
+
+        car1 = createSprite(100,200);
+        car2 = createSprite(300,200);
+        car3 = createSprite(500,200);
+        car4 = createSprite(700,200);
+        cars = [car1, car2, car3, car4]; //0-3
     }
 
     play(){
@@ -39,10 +45,16 @@ class Game {
         Player.getPlayerInfo();
 
         if(allPlayers !== undefined){
-            var positionText = 130;
-            for(var i in allPlayers){
+            //var positionText = 130;
+            var carIndex = 0;
+            var y;
+            var x = 0;
+            
+            for(var i in allPlayers){ //1-4
+                carIndex = carIndex + 1; //ci = 1, Player1
+                /*
                 //currently active player
-                if(i === "Player" + Player.Index){
+                if(i === "Player" + player.Index){
                     fill("red");
                 }
                 else{
@@ -52,6 +64,19 @@ class Game {
                 positionText = positionText + 20;
                 textSize(15);
                 text(allPlayers[i].Name + ": " + allPlayers[i].Distance, 120, positionText);
+                */
+
+                x = x + 200;
+                y = displayHeight - allPlayers[i].Distance;
+                cars[carIndex - 1].x = x;
+                cars[carIndex - 1].y = y;
+
+                //Currently active car
+                if(carIndex === player.Index){
+                    cars[carIndex - 1].shapeColor = "red";
+                    camera.position.x = displayWidth/2;
+                    camera.position.y = cars[carIndex - 1].y;
+                }
             }
             //player1: distance
         }
@@ -61,7 +86,7 @@ class Game {
             player.update();
         }
 
-        
+        drawSprites();
     }
 }
 
